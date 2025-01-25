@@ -1,0 +1,173 @@
+cards:
+  - type: custom:stack-in-card
+    mode: vertical
+    cards:
+      - type: gauge
+        entity: sensor.generator_rpm
+        needle: true
+        min: 2500
+        max: 5000
+        segments:
+          - from: 0
+            color: '#db4437'
+          - from: 3400
+            color: '#ffa600'
+          - from: 3500
+            color: '#43a047'
+          - from: 3700
+            color: '#ffa600'
+          - from: 3800
+            color: '#db4437'
+        card_mod:
+          style: |
+            ha-card {
+              border-width: 0;
+            }
+      - type: grid
+        square: false
+        cards:
+          - type: gauge
+            entity: sensor.generator_output_power
+            name: Power
+            max: 9000
+            needle: true
+            severity:
+              green: 0
+              yellow: 6600
+              red: 7800
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+          - type: gauge
+            entity: sensor.generator_output_current
+            name: Current
+            max: 37.5
+            needle: true
+            severity:
+              green: 0
+              yellow: 27.5
+              red: 32.5
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+          - type: gauge
+            entity: sensor.generator_output_voltage
+            name: Output Voltage
+            needle: true
+            min: 100
+            max: 280
+            segments:
+              - from: 0
+                color: '#db4437'
+              - from: 220
+                color: '#ffa600'
+              - from: 232
+                color: '#43a047'
+              - from: 245
+                color: '#ffa600'
+              - from: 255
+                color: '#db4437'
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+          - type: gauge
+            entity: sensor.generator_frequency
+            name: Frequency
+            max: 100
+            needle: true
+            segments:
+              - from: 0
+                color: '#db4437'
+              - from: 52
+                color: '#ffa600'
+              - from: 57
+                color: '#43a047'
+              - from: 63
+                color: '#ffa600'
+              - from: 68
+                color: '#db4437'
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+          - type: gauge
+            entity: sensor.generator_battery_voltage
+            name: Battery
+            max: 16
+            needle: true
+            segments:
+              - from: 0
+                color: '#db4437'
+              - from: 12
+                color: '#ffa600'
+              - from: 13
+                color: '#43a047'
+              - from: 15
+                color: '#ffa600'
+              - from: 15.5
+                color: '#db4437'
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+          - type: gauge
+            entity: sensor.generator_outage_utility_voltage
+            name: Input Voltage
+            needle: true
+            min: 100
+            max: 280
+            segments:
+              - from: 0
+                color: '#db4437'
+              - from: 220
+                color: '#ffa600'
+              - from: 232
+                color: '#43a047'
+              - from: 245
+                color: '#ffa600'
+              - from: 255
+                color: '#db4437'
+            card_mod:
+              style: |
+                ha-card {
+                  border-width: 0;
+                }
+        columns: 3
+  - type: custom:stack-in-card
+    mode: horizontal
+    cards:
+      - type: custom:mushroom-select-card
+        entity: input_select.generator_command
+        layout: vertical
+        secondary_info: none
+        icon_type: none
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        card_mod:
+          style: |
+            ha-card {
+              border-width: 0;
+            }
+      - type: button
+        icon: mdi:send
+        tap_action:
+          action: perform-action
+          perform_action: script.generator_command
+          target: {}
+        card_mod:
+          style: |
+            ha-card {
+              border-width: 0;
+            }
