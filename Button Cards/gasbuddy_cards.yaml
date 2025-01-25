@@ -1,0 +1,83 @@
+cards:
+  - type: custom:button-card
+    name: Best Diesel
+    show_state: true
+    show_label: true
+    show_entity_picture: true
+    entity: |
+      [[[
+        return states['sensor.lowest_diesel_fuel_price'].attributes.min_entity_id;
+      ]]]
+    label: |
+      [[[
+        const dateStr = states[states['sensor.lowest_diesel_fuel_price'].attributes.min_entity_id].attributes.last_updated;
+        const dateObj = new Date(dateStr);
+        const options = { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+        return "Last Updated: " + dateObj.toLocaleString('en-US', options);
+      ]]]
+    tap_action:
+      action: none
+    hold_action:
+      action: none
+    styles:
+      grid:
+        - grid-template-areas: '"i n" "i s" "i l"'
+        - grid-template-columns: min-content 1fr
+        - grid-template-rows: min-content min-content min-content
+        - column-gap: 10px
+      card:
+        - color: '#008e01'
+      name:
+        - font-size: 20px
+        - justify-self: start
+      icon:
+        - height: 60px
+        - width: 60px
+        - align-self: center
+      state:
+        - font-size: 26px
+        - padding: 2px 0
+        - justify-self: start
+      label:
+        - font-size: 12px
+        - justify-self: start
+  - type: custom:button-card
+    name: Best Gas
+    show_state: true
+    show_label: true
+    show_entity_picture: true
+    entity: |
+      [[[
+        return states['sensor.lowest_regular_fuel_price'].attributes.min_entity_id;
+      ]]]
+    label: |
+      [[[
+        const dateStr = states[states['sensor.lowest_regular_fuel_price'].attributes.min_entity_id].attributes.last_updated;
+        const dateObj = new Date(dateStr);
+        const options = { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+        return "Last Updated: " + dateObj.toLocaleString('en-US', options);
+      ]]]
+    tap_action:
+      action: none
+    hold_action:
+      action: none
+    styles:
+      grid:
+        - grid-template-areas: '"i n" "i s" "i l"'
+        - grid-template-columns: min-content 1fr
+        - grid-template-rows: min-content min-content min-content
+        - column-gap: 10px
+      name:
+        - font-size: 20px
+        - justify-self: start
+      icon:
+        - height: 60px
+        - width: 60px
+        - align-self: center
+      state:
+        - font-size: 26px
+        - padding: 2px 0
+        - justify-self: start
+      label:
+        - font-size: 12px
+        - justify-self: start
