@@ -1,0 +1,61 @@
+cards:
+  - type: custom:button-card
+    name: Freezer Stock
+    entity: sensor.grocy_stock
+    show_state: false
+    show_icon: false
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-kiosk/grocy
+    hold_action:
+      action: perform-action
+      perform_action: fully_kiosk.start_application
+      target:
+        device_id: 4fe0465a412f60a88c63784d3d6b579c
+      data:
+        application: xyz.zedler.patrick.grocy
+    custom_fields:
+      products: |
+        [[[ 
+          const products = entity.attributes.products;
+          // Sort products by best_before_date
+          products.sort((a, b) => new Date(a.best_before_date) - new Date(b.best_before_date));
+          return `
+            <table style="width: 100%; border-collapse: collapse; color: #f2f2f2;">
+              <tr style="background-color: #333;">
+                <th style="text-align: left; padding: 8px; font-weight: bold; color: #b0bec5;">Name</th>
+                <th style="text-align: left; padding: 8px; font-weight: bold; color: #b0bec5;">Available</th>
+                <th style="text-align: left; padding: 8px; font-weight: bold; color: #b0bec5;">Best Before</th>
+              </tr>
+              ${products.map((product,index) => `
+                <tr style="background-color: ${index % 2 === 0 ? '#222' : '#111'};">
+                  <td style="border: 1px solid #444; padding: 8px;">${product.name}</td>
+                  <td style="border: 1px solid #444; padding: 8px;">${product.available_amount}</td>
+                  <td style="border: 1px solid #444; padding: 8px;">${new Date(product.best_before_date).toLocaleDateString('en-US')}</td>
+                </tr>
+              `).join('')}
+            </table>
+          `;
+        ]]]
+    styles:
+      card:
+        - padding: 10px 0 0 0
+      grid:
+        - grid-template-areas: '"n" "products"'
+        - grid-template-rows: min-content auto
+      name:
+        - font-size: 18px
+        - font-weight: bold
+        - margin-bottom: 10px
+        - color: '#b0bec5'
+      custom_fields:
+        products:
+          - height: 823px
+          - overflow-y: auto
+          - overflow-x: hidden
+          - white-space: nowrap
+          - text-overflow: ellipsis
+          - scrollbar-width: none
+          - '-ms-overflow-style': none
+          - display: '-webkit-box'
+          - '-webkit-overflow-scrolling': touch
