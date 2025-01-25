@@ -1,0 +1,963 @@
+cards:
+  - type: custom:button-card
+    name: Front Porch
+    icon: mdi:home
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/front-porch
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(137, 179, 248, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(137, 179, 248, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(137, 179, 248, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(137, 179, 248, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(137, 179, 248, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(137, 179, 248, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.front_porch_lights
+              icon: mdi:light-recessed
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.front_porch_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.front_porch_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }  
+  - type: custom:button-card
+    name: Garage
+    icon: mdi:garage
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/garage
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(143, 188, 143, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(143, 188, 143, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(143, 188, 143, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(143, 188, 143, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(143, 188, 143, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(143, 188, 143, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return
+        `${states['climate.garage_thermostat'].attributes.current_temperature}°F`;
+        ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: cover.large_garage_door
+              icon: >
+                {{ "mdi:garage-open-variant" if
+                is_state('cover.large_garage_door','open') else
+                "mdi:garage-variant" }}
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(205, 92, 92, 0.2)" if is_state('cover.large_garage_door','open') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(205, 92, 92)" if is_state('cover.large_garage_door','open') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: cover.small_garage_door
+              icon: >
+                {{ "mdi:garage-open" if
+                is_state('cover.small_garage_door','open') else
+                "mdi:garage" }}
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(205, 92, 92, 0.2)" if is_state('cover.small_garage_door','open') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(205, 92, 92)" if is_state('cover.small_garage_door','open') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: more-info
+              entity: climate.garage_thermostat
+              icon: mdi:thermostat
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: rgb(18, 18, 18);
+                    --color: {{ "rgb(243, 156, 18)" if is_state('climate.garage_thermostat','heat') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Living Room
+    icon: mdi:sofa
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/living-room
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(255, 165, 0, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(255, 165, 0, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(255, 165, 0, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(255, 165, 0, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(255, 165, 0, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(255, 165, 0, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.living_room_lights
+              icon: mdi:light-recessed
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.living_room_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.living_room_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.living_room_lamps
+              icon: mdi:lamp
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.living_room_lamps','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.living_room_lamps','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: navigate
+                navigation_path: '#shield_remote'
+              entity: remote.shield
+              icon: mdi:remote-tv
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('remote.shield','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('remote.shield','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Kitchen
+    icon: mdi:knife
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/kitchen
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(187, 187, 187, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(187, 187, 187, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(187, 187, 187, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(187, 187, 187, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(187, 187, 187, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(187, 187, 187, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return
+        states['sensor.ambientweather2mqtt_temperatureindoor'].state +
+        "°F" ]]]
+      hum: >
+        [[[ return
+        states['sensor.ambientweather2mqtt_humidityindoor'].state + "%"
+        ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.kitchen_lights
+              icon: mdi:light-recessed
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.kitchen_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.kitchen_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.under_cabinet_lights
+              icon: mdi:led-strip-variant
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.under_cabinet_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.under_cabinet_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: switch.wp3_8018_relay
+              icon: mdi:coffee-maker
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('switch.wp3_8018_relay','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('switch.wp3_8018_relay','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Office
+    icon: mdi:desktop-classic
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/office
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(178, 34, 34, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(178, 34, 34, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(178, 34, 34, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(178, 34, 34, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(178, 34, 34, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(178, 34, 34, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.office_lamp
+              icon: mdi:lamp
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.office_lamp','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.office_lamp','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: navigate
+                navigation_path: '#office_wled'
+              entity: light.office_main
+              icon: mdi:led-strip-variant
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.office_main','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.office_main','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Master BR
+    icon: mdi:bed-king
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/master-bedroom
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(102, 31, 255, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(147, 112, 219, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(147, 112, 219, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(102, 31, 255, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(102, 31, 255, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(102, 31, 255, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return states['sensor.h5075_0b22_temperature'].state + "°F"
+        ]]]
+      hum: |
+        [[[ return states['sensor.h5075_0b22_humidity'].state + "%" ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: navigate
+                navigation_path: '#masterbr_wled'
+              entity: light.bedroom_main
+              icon: mdi:led-strip-variant
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.bedroom_main','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.bedroom_main','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.master_bathroom_light
+              icon: mdi:wall-sconce-flat
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.master_bathroom_light','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.master_bathroom_light','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Guest BR 1
+    icon: mdi:image-filter-hdr
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/guest-bedroom-1
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(0, 191, 255, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(0, 191, 255, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(0, 191, 255, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(0, 191, 255, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(0, 191, 255, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(0, 191, 255, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips: []
+  - type: custom:button-card
+    name: Guest BR 2
+    icon: mdi:dumbbell
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/guest-bedroom-2
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(218, 165, 32, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(218, 165, 32, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(218, 165, 32, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(218, 165, 32, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(218, 165, 32, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(218, 165, 32, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.guest_br2_switch
+              icon: mdi:ceiling-light
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.guest_br2_switch','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.guest_br2_switch','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Hallway
+    icon: mdi:door-closed
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/hallway
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(128, 201, 148, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(128, 201, 148, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(128, 201, 148, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(128, 201, 148, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(128, 201, 148, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(128, 201, 148, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return
+        `${states['climate.hallway_thermostat'].attributes.current_temperature}°F`;
+        ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.tp_link_smart_bulb_3745
+              icon: mdi:lamp
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.tp_link_smart_bulb_3745','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.tp_link_smart_bulb_3745','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: more-info
+              entity: climate.hallway_thermostat
+              icon: mdi:thermostat
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: rgb(18, 18, 18);
+                    --color: {{ "rgb(243, 156, 18)" if is_state('climate.hallway_thermostat','heat') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Laundry
+    icon: mdi:tumble-dryer
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/laundry
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(250, 128, 114, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(250, 128, 114, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(250, 128, 114, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(250, 128, 114, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(250, 128, 114, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(250, 128, 114, 1)
+        - opacity: '0.5'
+    custom_fields:
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips: []
+  - type: custom:button-card
+    name: Back Porch
+    icon: mdi:forest
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/back-porch
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(0, 128, 0, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(85, 152, 85, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(85, 152, 85, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(0, 128, 0, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(0, 128, 0, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(0, 128, 0, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return
+        states['sensor.ambientweather2mqtt_temperatureoutdoor'].state +
+        "°F" ]]]
+      hum: >
+        [[[ return
+        states['sensor.ambientweather2mqtt_humidityoutdoor'].state + "%"
+        ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips:
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.back_porch_lights
+              icon: mdi:light-recessed
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.back_porch_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.back_porch_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+            - type: template
+              tap_action:
+                action: toggle
+              entity: light.string_lights
+              icon: mdi:string-lights
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-background: {{ "rgba(252, 214, 99, 0.2)" if is_state('light.string_lights','on') else "rgb(18, 18, 18)" }};
+                    --color: {{ "rgb(252, 214, 99)" if is_state('light.string_lights','on') else "rgb(221,221,221)" }};
+                    padding: 5px!important;
+                    border-radius: 100px!important;
+                  }
+  - type: custom:button-card
+    name: Crawl Space
+    icon: mdi:home-floor-b
+    tap_action:
+      action: navigate
+      navigation_path: /dashboard-mobile/crawl-space
+    styles:
+      grid:
+        - grid-template-areas: '"n btn" "temp btn" "hum btn" "i btn"'
+        - grid-template-columns: 1fr min-content;
+        - grid-template-rows: min-content min-content min-content 1fr;
+      card:
+        - padding: 10px 8px 10px 10px
+        - background-color: rgba(248, 248, 255, 0.1)
+        - height: 175px
+      custom_fields:
+        temp:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - padding-top: 5px
+          - color: rgba(248, 248, 255, 1)
+        hum:
+          - justify-self: start
+          - font-size: 12px
+          - opacity: '0.7'
+          - color: rgba(248, 248, 255, 1)
+        btn:
+          - justify-content: end
+          - align-self: start
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-size: 18px
+        - font-weight: 500
+        - color: rgba(248, 248, 255, 1)
+      img_cell:
+        - justify-content: start
+        - position: absolute
+        - width: 120px
+        - height: 120px
+        - left: 0
+        - bottom: 0
+        - margin: 0 0 -20px -20px
+        - background-color: rgba(248, 248, 255, 0.2)
+        - border-radius: 50%
+      icon:
+        - position: relative
+        - width: 60px
+        - color: rgba(248, 248, 255, 1)
+        - opacity: '0.5'
+    custom_fields:
+      temp: >
+        [[[ return states['sensor.h5075_6879_temperature'].state + "°F"
+        ]]]
+      hum: |
+        [[[ return states['sensor.h5075_6879_humidity'].state + "%" ]]]
+      btn:
+        card:
+          type: custom:mushroom-chips-card
+          chips: []
