@@ -1,4 +1,6 @@
 product_display:
+  variables:
+    product: Product Name
   name: '[[[ return variables.product ]]]'
   styles:
     grid:
