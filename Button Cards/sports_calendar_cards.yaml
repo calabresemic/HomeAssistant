@@ -1,0 +1,205 @@
+cards:
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: sensor.calendar_osu_games
+        above: 0
+    card:
+      type: custom:button-card
+      entity: sensor.calendar_osu_games
+      show_icon: false
+      show_name: false
+      state:
+        - operator: template
+          value: |
+            [[[
+              return new Date(entity.attributes.events[0].start).toDateString() === new Date().toDateString()
+            ]]]
+          styles:
+            card:
+              - background: "#BB0000"
+            custom_fields:
+              day:
+                - color: "#FFFFFF"
+              time:
+                - color: "#000000"
+              date:
+                - color: "#FFFFFF"
+                - border-right: "1px solid #FFFFFF"
+              event:
+                - color: "#000000"
+      styles:
+        grid:
+          - grid-template-areas: "\"day .\" \"date time\" \"date event\""
+          - grid-template-columns: min-content 1fr
+        card:
+          - padding: 20px
+        custom_fields:
+          day:
+            - justify-self: start
+          time:
+            - justify-self: start
+            - font-size: 1.4em
+            - padding-left: 20px
+          date:
+            - justify-self: start
+            - font-size: 3em
+            - text-transform: uppercase
+            - padding-right: 20px
+            - border-right: "1px solid #FFFFFF"
+          event:
+            - justify-self: start
+            - padding-left: 20px
+      custom_fields:
+        day: |
+          [[[
+            return helpers.formatDateWeekday(entity.attributes.events[0].start)
+          ]]]
+        date: |
+          [[[
+            return helpers.formatDateShort(entity.attributes.events[0].start)
+          ]]]
+        time: |
+          [[[
+            return helpers.formatTime24h(entity.attributes.events[0].start)
+          ]]]
+        event: |
+          [[[
+            return entity.attributes.events[0].summary
+          ]]]
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: sensor.calendar_browns_games
+        above: 0
+    card:
+      type: custom:button-card
+      entity: sensor.calendar_browns_games
+      show_icon: false
+      show_name: false
+      state:
+        - operator: template
+          value: |
+            [[[
+              return new Date(entity.attributes.events[0].start).toDateString() === new Date().toDateString()
+            ]]]
+          styles:
+            card:
+              - background: "#ff3c00"
+            custom_fields:
+              day:
+                - color: "#311D00"
+              time:
+                - color: "#311D00"
+              date:
+                - color: "#311D00"
+                - border-right: "1px solid #311D00"
+              event:
+                - color: "#311D00"
+      styles:
+        grid:
+          - grid-template-areas: "\"day .\" \"date time\" \"date event\""
+          - grid-template-columns: min-content 1fr
+        card:
+          - padding: 20px
+        custom_fields:
+          day:
+            - justify-self: start
+          time:
+            - justify-self: start
+            - font-size: 1.4em
+            - padding-left: 20px
+          date:
+            - justify-self: start
+            - font-size: 3em
+            - text-transform: uppercase
+            - padding-right: 20px
+            - border-right: "1px solid #FFFFFF"
+          event:
+            - justify-self: start
+            - padding-left: 20px
+      custom_fields:
+        day: |
+          [[[
+            return helpers.formatDateWeekday(entity.attributes.events[0].start)
+          ]]]
+        date: |
+          [[[
+            return helpers.formatDateShort(entity.attributes.events[0].start)
+          ]]]
+        time: |
+          [[[
+            return helpers.formatTime24h(entity.attributes.events[0].start)
+          ]]]
+        event: |
+          [[[
+            return entity.attributes.events[0].summary
+          ]]]
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: sensor.calendar_crew_games
+        above: 0
+    card:
+      type: custom:button-card
+      entity: sensor.calendar_crew_games
+      show_icon: false
+      show_name: false
+      state:
+        - operator: template
+          value: |
+            [[[
+              return new Date(entity.attributes.events[0].start).toDateString() === new Date().toDateString()
+            ]]]
+          styles:
+            card:
+              - background: "#FFF302"
+            custom_fields:
+              day:
+                - color: "#231F20"
+              time:
+                - color: "#231F20"
+              date:
+                - color: "#231F20"
+                - border-right: "1px solid #231F20"
+              event:
+                - color: "#231F20"
+      styles:
+        grid:
+          - grid-template-areas: "\"day .\" \"date time\" \"date event\""
+          - grid-template-columns: min-content 1fr
+        card:
+          - padding: 20px
+        custom_fields:
+          day:
+            - justify-self: start
+          time:
+            - justify-self: start
+            - font-size: 1.4em
+            - padding-left: 20px
+          date:
+            - justify-self: start
+            - font-size: 3em
+            - text-transform: uppercase
+            - padding-right: 20px
+            - border-right: "1px solid #FFFFFF"
+          event:
+            - justify-self: start
+            - padding-left: 20px
+      custom_fields:
+        day: |
+          [[[
+            return helpers.formatDateWeekday(entity.attributes.events[0].start)
+          ]]]
+        date: |
+          [[[
+            return helpers.formatDateShort(entity.attributes.events[0].start)
+          ]]]
+        time: |
+          [[[
+            return helpers.formatTime24h(entity.attributes.events[0].start)
+          ]]]
+        event: |
+          [[[
+            return entity.attributes.events[0].summary
+          ]]]
