@@ -1,0 +1,77 @@
+product_display:
+  name: '[[[ return variables.product ]]]'
+  styles:
+    grid:
+      - grid-template-areas: '"n n n n" "remove qty qty add" "remove bbd bbd add"'
+      - grid-template-columns: 1fr 1fr 1fr 1fr
+      - grid-template-rows: min-content min-content min-content
+    name:
+      - font-size: 20px
+    custom_fields:
+      add:
+        - padding-top: 10px
+        - justify-self: center
+      remove:
+        - padding-top: 10px
+        - justify-self: center
+  custom_fields:
+    qty: |
+      [[[
+        const products = states['sensor.grocy_stock'].attributes.products || [];
+        const product = products.find(p => p.name.toLowerCase() === variables.product.toLowerCase());
+        return product ? `Qty: ${product.available_amount}` : 'Qty: N/A';
+      ]]]
+    bbd: |
+      [[[
+        const products = states['sensor.grocy_stock'].attributes.products || [];
+        const product = products.find(p => p.name.toLowerCase() === variables.product.toLowerCase());
+        return product ? `Best By: ${product.best_before_date}` : 'Best By: N/A';
+      ]]]
+    add:
+      card:
+        type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            tap_action:
+              action: perform-action
+              perform_action: script.grocy_inventory_mgmt
+              data:
+                product_id: |
+                  [[[
+                    const products = states['sensor.grocy_stock'].attributes.products || [];
+                    const product = products.find(p => p.name.toLowerCase() === variables.product.toLowerCase());
+                    return product ? `${product.id}` : '';
+                  ]]]
+                transaction: add
+            icon: mdi:plus-box
+            icon_color: green
+            card_mod:
+              style: |
+                ha-card {
+                  padding: 5px!important;
+                  border-radius: 20px!important;
+                } 
+    remove:
+      card:
+        type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            tap_action:
+              action: perform-action
+              perform_action: script.grocy_inventory_mgmt
+              data:
+                product_id: |
+                  [[[
+                    const products = states['sensor.grocy_stock'].attributes.products || [];
+                    const product = products.find(p => p.name.toLowerCase() === variables.product.toLowerCase());
+                    return product ? `${product.id}` : '';
+                  ]]]
+                transaction: consume
+            icon: mdi:minus-box
+            icon_color: red
+            card_mod:
+              style: |
+                ha-card {
+                  padding: 5px!important;
+                  border-radius: 20px!important;
+                }
