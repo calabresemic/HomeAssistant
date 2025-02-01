@@ -9,7 +9,17 @@ calendar_event_card:
             const event = events[variables.index] || {};
             const start = new Date(event.start || "");
             const end = new Date(event.end || "");
-            const duration = (end - start) / (1000 * 60 * 60 * 24);
+
+            // Convert to UTC date (prevents local timezone shifting)
+            const startUTC = new Date(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
+            const endUTC = new Date(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
+
+            // Adjust end date for all-day events (subtract one day)
+            if (end.getUTCHours() === 0 && end.getUTCMinutes() === 0) {
+              endUTC.setDate(endUTC.getDate() - 1);
+            }
+
+            const duration = (endUTC - startUTC) / (1000 * 60 * 60 * 24);
 
             // If it's a multi-day event, adjust the grid template
             if (duration > 1) {
@@ -31,7 +41,7 @@ calendar_event_card:
         - font-size: 1.6em
         - text-transform: uppercase
         - padding-right: 20px
-        - border-right: "1px solid #FFFFFF"
+        - border-right: '1px solid #FFFFFF'
         - width: 100px
         - text-align: left
       event:
@@ -47,16 +57,28 @@ calendar_event_card:
       [[[
         const events = states[variables.entity]?.attributes?.events || [];
         const event = events[variables.index] || {};
-        const start = new Date(event.start || "");
-        const end = new Date(event.end || "");
-        const duration = (end - start) / (1000 * 60 * 60 * 24);
+        
+        // Parse as UTC to avoid timezone shifting
+        const start = new Date(event.start);
+        const end = new Date(event.end);
+        
+        // Convert to UTC date (prevents local timezone shifting)
+        const startUTC = new Date(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
+        let endUTC = new Date(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
+
+        // Adjust end date for all-day events (subtract one day)
+        if (end.getUTCHours() === 0 && end.getUTCMinutes() === 0) {
+          endUTC.setDate(endUTC.getDate() - 1);
+        }
+
+        const duration = (endUTC - startUTC) / (1000 * 60 * 60 * 24);
         
         if (duration > 1) {
-          const startDateShort = helpers.formatDateShort(start);
-          const endDateShort = helpers.formatDateShort(end);
-          return `${startDateShort}-<br>${endDateShort}`;
+          const startDateShort = helpers.formatDateShort(startUTC);
+          const endDateShort = helpers.formatDateShort(endUTC);
+          return `${startDateShort} -<br>${endDateShort}`;
         } else {
-          return helpers.formatDateShort(start);
+          return helpers.formatDateShort(startUTC);
         }
       ]]]
     time: |
@@ -65,17 +87,21 @@ calendar_event_card:
         const event = events[variables.index] || {};
         const start = event.start || "";
 
-        // Check if the start date has a time portion
-        const isAllDay = start.length <= 10; // Date-only strings have a length of 10
+        if (!start) return ""; // No start date
+
+        const startDate = new Date(start);
+
+        // Check if the start date includes a time portion
+        const isAllDay = startDate.getUTCHours() === 0 && startDate.getUTCMinutes() === 0;
         if (isAllDay) {
           return "";
         }
 
-        return helpers.formatTime24h(start);
+        return helpers.formatTime24h(startDate);
       ]]]
     event: |
       [[[
-        const events = states[variables.entity]?.attributes?.events || [];
-        const event = events[variables.index] || {};
-        return event.summary || "No event summary";
-      ]]]
+          const events = states[variables.entity]?.attributes?.events || [];
+          const event = events[variables.index] || {};
+          return event.summary || "No event summary";
+        ]]]
